@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = "http://localhost:5000/books";
+const API = "https://695178c370e1605a108a282a.mockapi.io/books";
 
 export const getBooks = (params = {}) => axios.get(API, { params });
 // params e.g. { _page: 1, _limit: 6, q: "search", _sort: "price", _order: "asc", author: "..." }
