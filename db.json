@@ -1,0 +1,136 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "price": "299",
+      "image": "https://m.media-amazon.com/images/I/813lkFoLOXL._SL1500_.jpg",
+      "genre": "Self-help",
+      "description": "People think that when you want to change your life, you need to think big. But world-renowned habits expert James Clear has discovered another way. He knows that real change comes from the compound effect of hundreds of small decisions: doing two push-ups a day, waking up five minutes early, or holding a single short phone call.",
+      "published": "16 October 2018",
+      "publisher": "16 October 2018",
+      "pages": "400"
+    },
+    {
+      "id": "fa14",
+      "title": "Attack on Titan: Marley Arc",
+      "author": "Hajime Isayama",
+      "price": "800",
+      "image": "https://m.media-amazon.com/images/I/91HKs5xxN8L._SL1500_.jpg",
+      "genre": "Fiction",
+      "publisher": "9 September 2009",
+      "description": "Eren and everyone he has ever known have lived on the island of Paradis. For many years, the Marleyans have been threatening Paradis in an attempt to monopolize the power of the Titans and keep the world trembling before their military might. In an effort to prove their worth and cement their truth, the Marleyans prepare for the ultimate declaration of war on Paradis. But when the time for deliverance comes, neither side is equipped for the shocking drama that unfolds.",
+      "pages": "192",
+      "published": "4 December 2018"
+    },
+    {
+      "id": "a704",
+      "title": "A Song of Ice and Fire: Game of Thrones",
+      "author": "George R. R. Martin",
+      "price": "1200",
+      "image": "https://m.media-amazon.com/images/I/91dSMhdIzTL.jpg",
+      "genre": "Fiction",
+      "publisher": "1 August 1996",
+      "description": "Full of drama and adventure, rage and lust, mystery and romance, George R.R. Martin's Game of Thrones: A Song of Ice and Fire is regarded as one of the most intriguing and greatest epic of the modern era. Set in 12,000BC, the seasons in this epic change after decades and bring with them mystery and death. The epic opens with the winter season fast approaching; through the human are protected and safe within the protective ice Wall of the kingdom, winter has arose the deadly forces that are continuously threatening the identity of the mortal power.",
+      "pages": "694",
+      "published": "1 August 1996"
+    },
+    {
+      "id": "4374",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "price": "599",
+      "image": "https://m.media-amazon.com/images/I/713jIoMO3UL._SL1500_.jpg",
+      "genre": "Informative",
+      "publisher": "2014 ",
+      "description": "Sapiens: A Brief History of Humankind by Yuval Noah Harari offers a sweeping, multidisciplinary narrative of human history, exploring how Homo sapiens evolved from insignificant apes to the dominant species on Earth, blending biology, history, economics, and philosophy to explain our rise, our societies, and our future, questioning what it truly means to be human through concepts like the Cognitive Revolution, the Agricultural Revolution, and the power of shared fictions like money, nations, and religions.",
+      "pages": "443",
+      "published": "10 February 2015"
+    },
+    {
+      "id": "7710",
+      "title": "Berserk: Fantasia Arc",
+      "author": "Kentaro Miura",
+      "price": "699",
+      "image": "https://m.media-amazon.com/images/I/81atMdrbJrL._SL1500_.jpg",
+      "genre": "Fiction",
+      "publisher": "4 November 2003",
+      "description": "The story follows Guts and his comrades in the aftermath of the Great Wave of the Astral World, caused by Griffith. Onboard the Seahorse, Guts and his party set sail for the mystical island of Elfhelm to seek counsel with the Elf King, who could possibly restore Casca's sanity. Meanwhile, Rickert begins to form his own party while Griffith rules nearly the entire world from his city, Falconia.",
+      "pages": "224",
+      "published date": "4 November 200",
+      "published": "18 July 2017"
+    },
+    {
+      "id": "8039",
+      "title": "Clean Code",
+      "author": "Robert C. Martin ",
+      "price": "480",
+      "image": "https://m.media-amazon.com/images/I/61pogGYyNAL._SL1500_.jpg",
+      "genre": "Programming",
+      "publisher": "1 August 2008",
+      "description": "Clean Code by Robert C. Martin teaches how to write readable, maintainable, and efficient code. It emphasizes meaningful naming, small functions, proper formatting, and solid design principles, helping developers reduce complexity, avoid bugs, and create professional, high-quality software that is easy to understand and evolve.",
+      "pages": "460",
+      "published": "August 2008"
+    },
+    {
+      "id": "e2e0",
+      "title": "Attack on Titan: War for Paradis Arc",
+      "author": "Hajime Isayama",
+      "price": "900",
+      "image": "https://m.media-amazon.com/images/I/81M6zZO8cmL._SL1500_.jpg",
+      "genre": "Fiction",
+      "publisher": "9 July 2018",
+      "description": "To activate the true power of the Founding Titan that courses through his veins, Eren must make contact with Zeke, a Titan of royal blood. Though Zeke has escaped Levi and the Survey Corps, he's made little headway before the Marleyan military and its Titan warriors attack. Eren pummels his way through the Marleyan trap and past his former friends, but as the battle rages, he stumbles into a situation far beyond what his brother could have planned.",
+      "pages": "190",
+      "published": "14 April 2020"
+    },
+    {
+      "id": "e69e",
+      "title": "Berserk: Golden Age Arc",
+      "author": "Kentaro Miura",
+      "price": "700",
+      "image": "https://m.media-amazon.com/images/I/81LesuY23fL._SL1500_.jpg",
+      "genre": "Fiction",
+      "publisher": "10 October 2006",
+      "description": "The Band of the Hawk may have been the most formidable band of fighters around, but when matched up against an army of abyssal monstrosities, earthly fighting skills don’t amount to a hill of beans. The Hawks’ tortured and mutilated former leader, Griffith, has used the accursed Crimson Behelit to open the gates to a shadowy realm of unspeakable horrors, the realm of the demon lords of the Godhand, who are willing to transform Griffith into a being of terrible power and majesty as long as Griffith is willing to give up his former command as sacrifices in the Invocation of Doom. But nobody takes down the Hawks without a fight, and their berserker champion, Guts, will take on anything Hell can throw at him in order to save his lover, Casca, from the sordid violations that only Hell can offer.",
+      "pages": "200",
+      "published": "10 October 2006"
+    },
+    {
+      "id": "2b33",
+      "title": "A Song of Ice and Fire: A Strom of Swords",
+      "author": "George R. R. Martin",
+      "price": "1200",
+      "image": "https://m.media-amazon.com/images/I/81GOYDv2bHL._SL1500_.jpg",
+      "genre": "Fiction",
+      "publisher": "",
+      "description": "A SONG OF ICE AND FIRE, the greatest fantasy epic of the modern age. Robb Stark may be King in the North, but he must bend to the will of the old tyrant Walder Frey if he is to hold his crown. And while his youngest sister, Arya, has escaped the clutches of the depraved Cersei Lannister and her son, the capricious boy-king Joffrey, Sansa Stark remains their captive.Meanwhile, across the ocean, Daenerys Stormborn, the last heir of the Dragon King, delivers death to the slave-trading cities of Astapor and Yunkai as she approaches Westeros with vengeance in her heart.",
+      "pages": "970",
+      "published date": "8 8 2000",
+      "published": "8 August 2000"
+    },
+    {
+      "id": "99ec",
+      "title": "Head First Java",
+      "author": "Kathy Sierra and Bert Bates",
+      "price": "499",
+      "image": "https://m.media-amazon.com/images/I/819TQgUGNsL._SL1500_.jpg",
+      "genre": "Programming",
+      "published": "1 January 2009",
+      "description": "Computer programming language Java is not easy to understand. It takes lot of time and practice to understand the complex programming language. But this book takes an interactive and fun approach for better understanding of different fundamentals of Java. The book offers multi-sensory and fun learning experience for new programmers, so they can easily pick up the new language.",
+      "pages": "740"
+    },
+    {
+      "id": "f98b",
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "price": "560",
+      "image": "https://m.media-amazon.com/images/I/71f6DceqZAL._SL1500_.jpg",
+      "genre": "Informative",
+      "published": "28 May 2012",
+      "description": "Why is there more chance we'll believe something if it's in a bold type face? Why are judges more likely to deny parole before lunch? Why do we assume a good-looking person will be more competent? The answer lies in the two ways we make choices: fast, intuitive thinking, and slow, rational thinking. This book reveals how our minds are tripped up by error and prejudice (even when we think we are being logical), and gives you practical techniques for slower, smarter thinking. It will enable to you make better decisions at work, at home, and in everything you do.",
+      "pages": "512"
+    }
+  ]
+}

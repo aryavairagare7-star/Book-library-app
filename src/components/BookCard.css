@@ -1,0 +1,38 @@
+.book-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.book-card img {
+  object-fit: cover;
+  height: 400px;
+  width: 100%;
+}
+
+.book-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 20%, rgba(0,0,0,0.75) 40%);
+  color: #fff;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.book-card:hover .card-overlay{
+  opacity: 1;
+}
+
+.card-overlay .btn {
+  min-width: 86px;
+}
