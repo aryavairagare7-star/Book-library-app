@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import Home from "./Pages/Home";
-import AddBook from "./pages/AddBook";
+import AddBook from "./Pages/AddBook.jsx";
 import EditBook from "./Pages/EditBook.jsx";
-import ViewBook from "./pages/ViewBook";
+import ViewBook from "./Pages/ViewBook.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
