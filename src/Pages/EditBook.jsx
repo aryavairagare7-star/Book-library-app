@@ -2,6 +2,23 @@ import { useEffect, useState } from "react";
 import { getBook, updateBook } from "../services/BookServices";
 import { useNavigate, useParams } from "react-router-dom";
 
+// MUI Date Picker
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+
+// MUI Core
+import {
+  Container,
+  Card,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Divider
+} from "@mui/material";
+
 function EditBook() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -12,14 +29,31 @@ function EditBook() {
     price: "",
     image: "",
     genre: "",
-    published: "",
     description: "",
-    pages: ""
+    pages: "",
   });
+
+  // ✅ separate state for date
+  const [publishedDate, setPublishedDate] = useState(null);
 
   useEffect(() => {
     getBook(id).then((res) => {
-      setForm(res.data); // ✅ populate inputs
+      const data = res.data;
+
+      setForm({
+        title: data.title || "",
+        author: data.author || "",
+        price: data.price || "",
+        image: data.image || "",
+        genre: data.genre || "",
+        description: data.description || "",
+        pages: data.pages || "",
+      });
+
+      // ✅ set date properly
+      setPublishedDate(
+        data.published ? dayjs(data.published) : null
+      );
     });
   }, [id]);
 
@@ -32,93 +66,157 @@ function EditBook() {
 
     const fixedForm = {
       ...form,
+      published: publishedDate
+        ? publishedDate.format("YYYY-MM-DD")
+        : "",
       price: form.price.toString(),
       pages: form.pages.toString(),
     };
 
     await updateBook(id, fixedForm);
 
-navigate("/", {
-  state: { message: "Book updated successfully" }
-});
-
+    navigate("/", {
+      state: { message: "Book updated successfully ✅" },
+    });
   };
 
-
-
   return (
-    <div className="container mt-4">
-      <h3>Edit Book</h3>
-      <form onSubmit={handleSubmit} className="w-50">
+    <Container sx={{ mt: 6 }}>
+      <Card
+        sx={{
+          maxWidth: 600,
+          mx: "auto",
+          p: 4,
+          borderRadius: 4,
+          boxShadow: 3
+        }}
+      >
+        <Typography variant="h5" fontWeight={600} mb={1}>
+          Edit Book
+        </Typography>
 
-        <input
-          className="form-control mt-2"
-          name="title"
-          value={form.title}
-          onChange={handleChange}
-          placeholder="Title"
-        />
+        <Typography variant="body2" color="text.secondary" mb={3}>
+          Update the book details
+        </Typography>
 
-        <input
-          className="form-control mt-2"
-          name="author"
-          value={form.author}
-          onChange={handleChange}
-          placeholder="Author"
-        />
+        <Box component="form" onSubmit={handleSubmit}>
 
-        <input
-          className="form-control mt-2"
-          name="genre"
-          value={form.genre}
-          onChange={handleChange}
-          placeholder="Genre"
-        />
+          {/* 📘 Basic Info */}
+          <Typography variant="subtitle2" mb={1}>
+            Basic Info
+          </Typography>
 
-        <input
-          className="form-control mt-2"
-          name="published"
-          value={form.published}
-          onChange={handleChange}
-          placeholder="Published Date"
-        />
+          <TextField
+            fullWidth
+            label="Title"
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
 
-        <input
-          className="form-control mt-2"
-          name="pages"
-          value={form.pages}
-          onChange={handleChange}
-          placeholder="Pages"
-        />
+          <TextField
+            fullWidth
+            label="Author"
+            name="author"
+            value={form.author}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
 
-        <textarea
-          className="form-control mt-2"
-          rows={5}
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description"
-        />
+          <TextField
+            fullWidth
+            label="Genre"
+            name="genre"
+            value={form.genre}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
 
-        <input
-          className="form-control mt-2"
-          name="price"
-          value={form.price}
-          onChange={handleChange}
-          placeholder="Price"
-        />
+          <Divider sx={{ my: 2 }} />
 
-        <input
-          className="form-control mt-2"
-          name="image"
-          value={form.image}
-          onChange={handleChange}
-          placeholder="Image URL"
-        />
+          {/* 📅 Details */}
+          <Typography variant="subtitle2" mb={1}>
+            Details
+          </Typography>
 
-        <button className="btn btn-primary mt-3">Update</button>
-      </form>
-    </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Published Date"
+              value={publishedDate}
+              onChange={(newValue) => setPublishedDate(newValue)}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  sx: { mb: 2 }
+                }
+              }}
+            />
+          </LocalizationProvider>
+
+          <TextField
+            fullWidth
+            label="Pages"
+            name="pages"
+            type="number"
+            value={form.pages}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Price"
+            name="price"
+            type="number"
+            value={form.price}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
+
+          <Divider sx={{ my: 2 }} />
+
+          {/* 📝 Description */}
+          <Typography variant="subtitle2" mb={1}>
+            Description
+          </Typography>
+
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            label="Description"
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Image URL"
+            name="image"
+            value={form.image}
+            onChange={handleChange}
+            sx={{ mb: 3 }}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              py: 1.2,
+              fontWeight: 600,
+              borderRadius: 2
+            }}
+          >
+            Update Book
+          </Button>
+
+        </Box>
+      </Card>
+    </Container>
   );
 }
 

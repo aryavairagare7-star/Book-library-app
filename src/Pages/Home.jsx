@@ -1,152 +1,179 @@
 import { useEffect, useState } from "react";
 import { getBooks, deleteBook } from "../services/BookServices";
-import BookCard from "../components/BookCard";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 
+import BookCard from "../components/BookCard";
 
-function Home({ searchQueryFromNavbar = "" }) {
+// MUI
+import { Container, Typography, Box, Select, MenuItem } from "@mui/material";
+
+function Home() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  
-
-  // pagination & filters
-  const [page, setPage] = useState(1);
-  const [limit] = useState(20);
-  const [totalCount, setTotalCount] = useState(0);
-
   const [sortBy, setSortBy] = useState("title");
   const [order, setOrder] = useState("asc");
-  const [genre, setGenre] = useState("");
+  const [genre, setGenre] = useState("all");
 
-const location = useLocation();
-const [searchParams] = useSearchParams();
-const q = searchParams.get("q") || "";
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get("q") || "";
 
+  useEffect(() => {
+    loadBooks();
+  }, [q, genre, sortBy, order]);
 
-useEffect(() => {
-  setPage(1);
-}, [q, genre, sortBy, order]);
-
-useEffect(() => {
-  loadBooks();
-}, [q, genre, sortBy, order]);
-
-useEffect(() => {
-  if (location.state?.message) {
-    toast.success(location.state.message);
-
-    // prevent showing again on refresh
-    window.history.replaceState({}, document.title);
-  }
-}, []);
-
-const loadBooks = async () => {
-  try {
-    setLoading(true);
-
-    const res = await getBooks(); // ⬅ NO params
-    let data = res.data;
-
-    // 🔍 SEARCH (frontend)
-    if (q) {
-      data = data.filter((book) =>
-        book.title.toLowerCase().includes(q.toLowerCase()) ||
-        book.author.toLowerCase().includes(q.toLowerCase()) ||
-        book.genre.toLowerCase().includes(q.toLowerCase())
-      );
+  useEffect(() => {
+    if (location.state?.message) {
+      toast.success(location.state.message);
+      window.history.replaceState({}, document.title);
     }
+  }, []);
 
-    // 🎭 GENRE FILTER
-    if (genre) {
-      data = data.filter((book) => book.genre === genre);
-    }
+  const loadBooks = async () => {
+    try {
+      setLoading(true);
 
-    // 🔃 SORT
-    data.sort((a, b) => {
-      if (sortBy === "price") {
-        return order === "asc" ? a.price - b.price : b.price - a.price;
+      const res = await getBooks();
+      let data = res.data;
+
+      if (q) {
+        data = data.filter(
+          (book) =>
+            book.title.toLowerCase().includes(q.toLowerCase()) ||
+            book.author.toLowerCase().includes(q.toLowerCase()) ||
+            book.genre.toLowerCase().includes(q.toLowerCase()),
+        );
       }
-      return order === "asc"
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
-    });
 
-    setBooks(data);
-  } catch {
-    toast.error("Failed to load books");
-  } finally {
-    setLoading(false);
-  }
-};
+      if (genre !== "all") {
+        data = data.filter((book) => book.genre === genre);
+      }
 
+      data.sort((a, b) => {
+        if (sortBy === "price") {
+          return order === "asc"
+            ? Number(a.price) - Number(b.price)
+            : Number(b.price) - Number(a.price);
+        }
 
+        return order === "asc"
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title);
+      });
+
+      setBooks(data);
+    } catch {
+      toast.error("Failed to load books");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this book?")) return;
+
     try {
       await deleteBook(id);
       toast.success("Book deleted");
-      // if the last item on page was deleted and page > 1, go to previous page
-      if (books.length === 1 && page > 1) setPage(page - 1);
-      else loadBooks();
-    } catch (err) {
+      loadBooks();
+    } catch {
       toast.error("Delete failed");
     }
   };
 
-  // pagination helpers
-  const totalPages = Math.ceil(totalCount / limit);
-
   return (
-    <div className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3>Available Books</h3>
+    <Container sx={{ mt: 4 }}>
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "space-between",
+          alignItems: { xs: "center", md: "center" },
+          textAlign: { xs: "center", md: "left" },
+          gap: 2,
+          mb: 3,
+        }}
+      >
+        <Typography variant="h5" fontWeight={600}>
+          Available Books
+        </Typography>
 
-        <div className="d-flex gap-2">
-          
+        {/* Filters */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            flexWrap: "wrap",
+            justifyContent: { xs: "center", md: "flex-end" },
+          }}
+        >
+          <Select
+            size="small"
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="Programming">Programming</MenuItem>
+            <MenuItem value="Self-help">Self-help</MenuItem>
+            <MenuItem value="Fiction">Fiction</MenuItem>
+            <MenuItem value="Informative">Informative</MenuItem>
+          </Select>
 
-          <select className="form-select w-auto" value={genre} onChange={(e)=>{ setPage(1); setGenre(e.target.value) }}>
-            <option value="">All genres</option>
-            <option value="Programming">Programming</option>
-            <option value="Self-help">Self-help</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Informative">Informative</option>
-          </select>
+          <Select
+            size="small"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <MenuItem value="title">Title</MenuItem>
+            <MenuItem value="price">Price</MenuItem>
+          </Select>
 
-          <select className="form-select w-auto" value={sortBy} onChange={(e)=>setSortBy(e.target.value)}>
-            <option value="title">Title</option>
-            <option value="price">Price</option>
-          </select>
-        </div>
-      </div>
+          <Select
+            size="small"
+            value={order}
+            onChange={(e) => setOrder(e.target.value)}
+          >
+            <MenuItem value="asc">Asc</MenuItem>
+            <MenuItem value="desc">Desc</MenuItem>
+          </Select>
+        </Box>
+      </Box>
 
+      {/* Content */}
       {loading ? (
-        <p>Loading...</p>
+        <Typography textAlign="center">Loading...</Typography>
       ) : books.length === 0 ? (
-        <p>No books found.</p>
+        <Typography textAlign="center">No books found.</Typography>
       ) : (
-        <div className="row">
-          {books.map((b) => (
-            <BookCard key={b.id} book={b} onDelete={handleDelete} />
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: { xs: "center", md: "flex-start" },
+            gap: 3,
+          }}
+        >
+          {books.map((book) => (
+            <Box
+              key={book.id}
+              sx={{
+                width: {
+                  xs: 260, // 🔥 perfect mobile card width
+                  sm: 300,
+                  md: "calc(33.33% - 24px)",
+                  lg: "calc(25% - 24px)",
+                },
+              }}
+            >
+              <BookCard book={book} onDelete={handleDelete} />
+            </Box>
           ))}
-        </div>
+        </Box>
       )}
-
-      {/* Pagination controls */}
-      {/* <div className="d-flex justify-content-center align-items-center gap-2 mt-4">
-        <button className="btn btn-outline-secondary" disabled={page === 1} onClick={()=>setPage(1)}>First</button>
-        <button className="btn btn-outline-secondary" disabled={page === 1} onClick={()=>setPage(p => Math.max(1, p-1))}>Prev</button>
-
-        <span>Page {page} of {totalPages || 1}</span>
-
-        <button className="btn btn-outline-secondary" disabled={page === totalPages || totalPages===0} onClick={()=>setPage(p => Math.min(totalPages, p+1))}>Next</button>
-        <button className="btn btn-outline-secondary" disabled={page === totalPages || totalPages===0} onClick={()=>setPage(totalPages)}>Last</button>
-      </div> */}
-    </div>
+    </Container>
   );
 }
 

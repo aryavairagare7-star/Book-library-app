@@ -132,5 +132,14 @@
       "description": "Why is there more chance we'll believe something if it's in a bold type face? Why are judges more likely to deny parole before lunch? Why do we assume a good-looking person will be more competent? The answer lies in the two ways we make choices: fast, intuitive thinking, and slow, rational thinking. This book reveals how our minds are tripped up by error and prejudice (even when we think we are being logical), and gives you practical techniques for slower, smarter thinking. It will enable to you make better decisions at work, at home, and in everything you do.",
       "pages": "512"
     }
+  ],
+
+  "users": [
+    {
+      "id": 1,
+      "name": "Arya",
+      "email": "arya@gmail.com",
+      "password": "123456"
+    }
   ]
 }

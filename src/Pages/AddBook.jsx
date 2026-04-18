@@ -2,6 +2,23 @@ import { useState } from "react";
 import { addBook } from "../services/BookServices";
 import { useNavigate } from "react-router-dom";
 
+// MUI Date Picker
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+
+// MUI Core
+import {
+  Container,
+  Card,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Divider
+} from "@mui/material";
+
 function AddBook() {
   const [form, setForm] = useState({
     title: "",
@@ -9,10 +26,12 @@ function AddBook() {
     price: "",
     image: "",
     genre: "",
-    published: "",
     description: "",
     pages: ""
   });
+
+  // ✅ separate state for date
+  const [publishedDate, setPublishedDate] = useState(null);
 
   const navigate = useNavigate();
 
@@ -25,35 +44,155 @@ function AddBook() {
 
     const fixedForm = {
       ...form,
+      published: publishedDate
+        ? publishedDate.format("YYYY-MM-DD")
+        : "",
       price: form.price.toString(),
       pages: form.pages.toString(),
     };
 
-    await addBook(form);
+    await addBook(fixedForm);
 
-navigate("/", {
-  state: { message: "Book added successfully ✅" }
-});
-
+    navigate("/", {
+      state: { message: "Book added successfully ✅" }
+    });
   };
 
   return (
-    <div className="container mt-4">
-      <h3>Add Book</h3>
-      <form onSubmit={handleSubmit} className="w-50">
+    <Container sx={{ mt: 6 }}>
+      <Card
+        sx={{
+          maxWidth: 600,
+          mx: "auto",
+          p: 4,
+          borderRadius: 4,
+          boxShadow: 3
+        }}
+      >
+        <Typography variant="h5" fontWeight={600} mb={1}>
+          Add New Book
+        </Typography>
 
-        <input className="form-control mt-2" name="title" placeholder="Title" onChange={handleChange} />
-        <input className="form-control mt-2" name="author" placeholder="Author" onChange={handleChange} />
-        <input className="form-control mt-2" name="genre" placeholder="Genre" onChange={handleChange} />
-        <input className="form-control mt-2" name="published" placeholder="Published Date" onChange={handleChange} />
-        <input className="form-control mt-2" name="pages" placeholder="Pages" onChange={handleChange} />
-        <textarea className="form-control mt-2"   rows={5} name="description" placeholder="Description" onChange={handleChange}></textarea>
-        <input className="form-control mt-2" name="price" placeholder="Price" onChange={handleChange} />
-        <input className="form-control mt-2" name="image" placeholder="Image URL" onChange={handleChange} />
+        <Typography variant="body2" color="text.secondary" mb={3}>
+          Fill in the details below to add a new book
+        </Typography>
 
-        <button className="btn btn-primary mt-3">Submit</button>
-      </form>
-    </div>
+        <Box component="form" onSubmit={handleSubmit}>
+
+          {/* 📘 Basic Info */}
+          <Typography variant="subtitle2" mb={1}>
+            Basic Info
+          </Typography>
+
+          <TextField
+            fullWidth
+            label="Title"
+            name="title"
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Author"
+            name="author"
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Genre"
+            name="genre"
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
+
+          <Divider sx={{ my: 2 }} />
+
+          {/* 📅 Details */}
+          <Typography variant="subtitle2" mb={1}>
+            Details
+          </Typography>
+
+          {/* ✅ Date Picker */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Published Date"
+              value={publishedDate}
+              onChange={(newValue) => setPublishedDate(newValue)}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  sx: { mb: 2 }
+                }
+              }}
+            />
+          </LocalizationProvider>
+
+          <TextField
+            fullWidth
+            label="Pages"
+            name="pages"
+            type="number"
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Price"
+            name="price"
+            type="number"
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+          />
+
+          <Divider sx={{ my: 2 }} />
+
+          {/* 📝 Description */}
+          <Typography variant="subtitle2" mb={1}>
+            Description
+          </Typography>
+
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            label="Description"
+            name="description"
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Image URL"
+            name="image"
+            onChange={handleChange}
+            required
+            sx={{ mb: 3 }}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              py: 1.2,
+              fontWeight: 600,
+              borderRadius: 2
+            }}
+          >
+            Add Book
+          </Button>
+
+        </Box>
+      </Card>
+    </Container>
   );
 }
 

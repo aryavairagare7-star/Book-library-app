@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { getBook, deleteBook } from "../services/BookServices";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import { Container, Card, Typography, Button, Box } from "@mui/material";
 
 function ViewBook() {
   const { id } = useParams();
@@ -31,44 +33,117 @@ function ViewBook() {
     try {
       await deleteBook(id);
       toast.success("Book deleted successfully");
-      navigate("/"); // redirect to Home
+      navigate("/");
     } catch {
       toast.error("Failed to delete book");
     }
   };
 
-  if (loading) return <h3 className="mt-5 text-center">Loading...</h3>;
+  if (loading) {
+    return (
+      <Typography textAlign="center" mt={5}>
+        Loading...
+      </Typography>
+    );
+  }
+
   if (!book) return null;
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex align-items-center mt-5">
-        <div className="col-4">
-          <h2>{book.title}</h2>
-          <br />
-          <img src={book.image} width="300" alt={book.title} className="mb-3" />
-        </div>
-        <div className="col mx-4">
-          <p><strong>Author:</strong> {book.author}</p>
-          <p><strong>Genre:</strong> {book.genre}</p>
-          <p><strong>Published Date:</strong> {book.published}</p>
-          <p><strong>Pages:</strong> {book.pages}</p>
-          <p><strong>Price:</strong> ₹{book.price}</p>
-          <p><strong>Description:</strong> {book.description}</p>
-          <br />
-          <div className="d-flex gap-3">
-            <Link to={`/edit/${book.id}`} className="btn btn-warning">
-            Edit
-            </Link>
-            <button className="btn btn-danger" onClick={handleDelete}>
-              Delete
-            </button>
-          </div>
-        </div>
-        
-      </div>
+    <Container sx={{ mt: 5, mb: 5 }}>
+      <Card sx={{ p: 3, borderRadius: 3, boxShadow: 2 }}>
+        {/* 🔥 RESPONSIVE LAYOUT */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: 4,
+            alignItems: { md: "flex-start", xs: "center" },
+          }}
+        >
+          {/* 📸 IMAGE */}
+          <Box
+            sx={{
+              width: { xs: "100%", md: "320px" },
+              flexShrink: 0,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              component="img"
+              src={book.image}
+              alt={book.title}
+              sx={{
+                width: { xs: "180px", sm: "220px", md: "100%" }, // 🔥 smaller on mobile
+                height: "auto",
+                aspectRatio: "3 / 4",
+                objectFit: "contain",
+                backgroundColor: "#f5f5f5",
+                borderRadius: 2,
+                display: "block",
+              }}
+            />
+          </Box>
 
-    </div>
+          {/* 📖 DETAILS */}
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h5" fontWeight={600} gutterBottom>
+              {book.title}
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary">
+              Author: <strong>{book.author}</strong>
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary">
+              Genre: <strong>{book.genre}</strong>
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary">
+              Published: <strong>{book.published}</strong>
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary">
+              Pages: <strong>{book.pages}</strong>
+            </Typography>
+
+            <Typography sx={{ mt: 1 }} fontWeight={600}>
+              Price: ₹{book.price}
+            </Typography>
+
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="subtitle2" gutterBottom>
+                Description
+              </Typography>
+
+              <Typography variant="body2" color="text.secondary">
+                {book.description}
+              </Typography>
+            </Box>
+
+            {/* 🔘 ACTIONS */}
+            <Box sx={{ mt: 4, display: "flex", gap: 1, flexWrap: "wrap" }}>
+              <Button
+                variant="contained"
+                color="warning"
+                onClick={() => navigate(`/edit/${book.id}`)}
+              >
+                Edit
+              </Button>
+
+              <Button variant="contained" color="error" onClick={handleDelete}>
+                Delete
+              </Button>
+
+              <Button variant="outlined" onClick={() => navigate("/")}>
+                Back
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Card>
+    </Container>
   );
 }
 
